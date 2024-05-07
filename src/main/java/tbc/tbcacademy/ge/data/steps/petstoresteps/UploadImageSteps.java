@@ -15,7 +15,7 @@ public class UploadImageSteps extends CommonSteps<UploadImageSteps> {
     public UploadImageSteps() {
         requestSpecification = getBaseRequestSpecForPetStore();
     }
-    @Step("get image name in pojo")
+    @Step("get image file")
     public UploadImageSteps getImage() {
         imageFile = new File("src/main/resources/randomImage.png");
         return this;
