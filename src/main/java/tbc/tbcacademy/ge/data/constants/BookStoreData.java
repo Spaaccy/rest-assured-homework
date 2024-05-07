@@ -2,11 +2,11 @@ package tbc.tbcacademy.ge.data.constants;
 
 public class BookStoreData {
     public static final String
-            BOOK_STORE_URL = "https://bookstore.toolsqa.com/BookStore/v1",
-            NOT_AUTHORIZED_MSG = "User not authorized!",
+            BOOK_STORE_URI = "https://bookstore.toolsqa.com/BookStore/v1",
             BOOKS_ENDPOINT = "/Books",
-            BOOK_ENDPOINT = "/Book";
+            FIRST_AUTHOR = "Richard E. Silverman",
+            SECOND_AUTHOR = "Addy Osmani";
 
     public static final int
-            MINIMUM_BOOK_PAGES = 0;
+            PAGES = 1000;
 }
