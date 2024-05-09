@@ -2,6 +2,7 @@ package tbc.tbcacademy.ge.data.steps.petstoresteps;
 import io.qameta.allure.Step;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static tbc.tbcacademy.ge.data.specbuilder.RequestSpecs.getBaseRequestSpecForPetStore;
 
@@ -13,18 +14,16 @@ public class GetPetSteps extends CommonSteps<GetPetSteps> {
     public GetPetSteps getPet() {
         response = given(requestSpecification)
                 .when()
-                .get("/pet/{petId}", petBody.getInt("id"));
+                .get("/pet/{petId}", petSharedClass.getId());
         return this;
     }
     @Step("validate updated pet name")
     public GetPetSteps validatePetName() {
-        validatableResponse
-                .body("name", equalTo(pet.getName()));
+        assertThat(petSharedClass.getName(), equalTo(petSharedClass.getName()));
         return this;
     }
     @Step("validate updated pet status")
     public void validatePetStatus() {
-        validatableResponse
-                .body("status", equalTo(pet.getStatus()));
+        assertThat(petSharedClass.getStatus(), equalTo(petSharedClass.getStatus()));
     }
 }

@@ -1,8 +1,7 @@
-package tbc.tbcacademy.ge.data.models.responses;
+package tbc.tbcacademy.ge.data.models.responses.restfulbooker;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
-
 @Getter
 @Setter
 @ToString
@@ -10,12 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({
-        "name",
-        "id",
+		"token",
 })
-public class Tag {
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("id")
-    private long id;
+public class BookerAuthResponse {
+	@JsonProperty("token")
+	private String token;
 }

@@ -1,14 +1,21 @@
 package tbc.tbcacademy.ge.data.steps.petstoresteps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.qameta.allure.Step;
-import tbc.tbcacademy.ge.data.models.responses.Pet;
+import org.json.JSONArray;
+import tbc.tbcacademy.ge.data.models.shared.petstore.PetShared;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static tbc.tbcacademy.ge.data.specbuilder.RequestSpecs.getBaseRequestSpecForPetStore;
 
 public class FindPetSteps extends CommonSteps<FindPetSteps> {
+    private PetShared[] allPets;
+    private PetShared myPet;
     public FindPetSteps() {
         requestSpecification = getBaseRequestSpecForPetStore();
     }
@@ -16,27 +23,33 @@ public class FindPetSteps extends CommonSteps<FindPetSteps> {
     @Step("get my added pet response")
     public FindPetSteps getAddedPet() {
         response = given(requestSpecification)
-                .queryParam("status", petBody.getString("status"))
+                .queryParam("status", "available")
                 .when()
                 .get("/pet/findByStatus");
         return this;
     }
+    @Step("find and extract my added pet as object using pojo")
+    public FindPetSteps extractPetResponseAsClass() {
+        allPets = response
+                .then()
+                .extract()
+                .body()
+                .as(PetShared[].class);
+        return this;
+    }
     @Step("validate response contains my id")
     public FindPetSteps validateResponseContainsID() {
-        validatableResponse
-                .body("id", hasItem(petBody.getInt("id")));
+        assertThat(Arrays.asList(allPets), hasItem(hasProperty("id", equalTo(petSharedClass.getId()))));
         return this;
     }
-    @Step("find and extract my added pet as object using pojo")
-    public FindPetSteps extractMyAddedPet() {
-        // gavarchie pojo klasebic, shemedzlo aq pirdapir jsonOBJECT an Map<String, Object> damebrunebina
-        pet = response
-                .jsonPath()
-                .getObject("find { it.id == " + petBody.getInt("id") + "}", Pet.class);
+    @Step("extract my pet")
+    public FindPetSteps extractMyPet() {
+        myPet = Arrays.stream(allPets).filter(pet -> pet.getId() == petSharedClass.getId()).findFirst().get();
         return this;
     }
-    @Step("validate pet response equals my pet json")
-    public void validateMyPetObjectResponse() throws JsonProcessingException {
-        assertThat(petBody.toString(), equalTo(mapper.writeValueAsString(pet)));
+    @Step("validate pet equals")
+    public FindPetSteps validatePetEqualsPOJO() {
+        assertThat(myPet, equalTo(petSharedClass));
+        return this;
     }
 }

@@ -1,5 +1,6 @@
-package tbc.tbcacademy.ge.data.models.responses;
+package tbc.tbcacademy.ge.data.models.shared.petstore;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
@@ -10,6 +11,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @JsonPropertyOrder({
         "photoUrls",
@@ -19,7 +21,7 @@ import lombok.*;
         "tags",
         "status"
 })
-public class Pet {
+public class PetShared {
     @JsonProperty("photoUrls")
     private String[] photoUrls;
     @JsonProperty("name")
@@ -27,9 +29,9 @@ public class Pet {
     @JsonProperty("id")
     private long id;
     @JsonProperty("category")
-    private Category category;
+    private CategoryShared category;
     @JsonProperty("tags")
-    private Tag[] tags;
+    private TagShared[] tags;
     @JsonProperty("status")
     private String status;
 }

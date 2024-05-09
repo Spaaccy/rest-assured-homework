@@ -1,26 +1,63 @@
 package tbc.tbcacademy.ge.restfulbookertest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import tbc.tbcacademy.ge.data.steps.restfulbookersteps.UpdateBookingSteps;
-import static tbc.tbcacademy.ge.data.constants.BookerData.BOOKER_ID;
-import static tbc.tbcacademy.ge.data.constants.CommonData.SUCCESS_CODE_CREATED;
+import tbc.tbcacademy.ge.data.models.requests.restfulbooker.BookerRequestObject;
+import tbc.tbcacademy.ge.data.steps.restfulbookersteps.*;
 
 public class RestfulBookerAPI {
-    UpdateBookingSteps updateBookingSteps;
+    PartialUpdateBookingSteps partialUpdateBookingSteps;
+    GetBookerTokenSteps getBookerTokenSteps;
+    CreateBookingSteps createBookingSteps;
+    GetBookingSteps getBookingSteps;
+    DeleteBookingSteps deleteBookingSteps;
+    @BeforeTest(alwaysRun = true)
+    public void initializeToken() {
+        getBookerTokenSteps = new GetBookerTokenSteps();
+        getBookerTokenSteps
+                .setUserInfo()
+                .getRequestToken()
+                .getValidatableResponse()
+                .checkStatusCode()
+                .extractTokenResponseAsClass();
+    }
 
     @BeforeClass(alwaysRun = true)
     public void initiateSteps() {
-        updateBookingSteps = new UpdateBookingSteps();
+        partialUpdateBookingSteps = new PartialUpdateBookingSteps();
+        createBookingSteps = new CreateBookingSteps();
+        getBookingSteps = new GetBookingSteps();
+        deleteBookingSteps = new DeleteBookingSteps();
     }
-
     @Test(priority = 1)
-    public void updateBookingTest(){
-        updateBookingSteps
-                .createBookingDates()
-                .createBookingBody()
-                .updateBookingByID(BOOKER_ID)
+    public void addBookingTest(){
+        createBookingSteps
+                .createBookerDates()
+                .createBookerBody()
+                .addBooker()
                 .getValidatableResponse()
-                .extractAndValidateStatusCode()
-                .logStatusIfStatusCodeIs(SUCCESS_CODE_CREATED);
+                .checkStatusCode()
+                .extractAddedBooker()
+                .validateAddBooker();
+    }
+    @Test(priority = 2, dependsOnMethods = "addBookingTest")
+    public void updateBookingTest() {
+        partialUpdateBookingSteps
+                .createBookerFullNameBody()
+                .partialUpdateBookingByID()
+                .getValidatableResponse()
+                .checkStatusCode()
+                .extractAddedBooker();
+
+        BookerRequestObject bookerResponseObject = getBookingSteps
+                .getBookingByID(createBookingSteps.getBookerResponseID());
+        partialUpdateBookingSteps.validateUpdatedBookers(bookerResponseObject);
+    }
+    @Test(priority = 3, dependsOnMethods = {"addBookingTest", "updateBookingTest"})
+    public void deleteBookingTest() {
+        deleteBookingSteps
+                .deleteBookingByID(deleteBookingSteps.getBookerResponseID())
+                .getValidatableResponse()
+                .checkStatusCodeDelete();
     }
 }

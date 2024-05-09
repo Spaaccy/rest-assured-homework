@@ -21,32 +21,27 @@ public class UploadImageSteps extends CommonSteps<UploadImageSteps> {
         return this;
     }
     @Step("upload image for pet")
-    public UploadImageSteps uploadPetImage(int id) {
+    public UploadImageSteps uploadPetImage() {
         response = given(requestSpecification)
                 .contentType(ContentType.MULTIPART)
                 .multiPart("additionalMetadata", PET_IMAGE_METADATA)
                 .multiPart("file", imageFile, PET_IMAGE_FORMAT)
                 .when()
-                .post("/pet/{petId}/uploadImage", id);
+                .post("/pet/{petId}/uploadImage", petSharedClass.getId());
         return this;
     }
     @Step("validate image metadata")
     public UploadImageSteps validateImageMetadata() {
-        validatableResponse
-                .body("message", containsString(PET_IMAGE_METADATA));
+        assertThat(imageUploadResponseClass.getMessage(), containsString(PET_IMAGE_METADATA));
         return this;
     }
     @Step("validate image filename")
     public UploadImageSteps validateImageFilename() {
-        validatableResponse
-                .body("message", containsString(imageFile.getName()));
+        assertThat(imageUploadResponseClass.getMessage(), containsString(imageFile.getName()));
         return this;
     }
     @Step("validate image filesize")
     public void validateImageFilesize() {
-        String ImageMessage = response
-                .jsonPath()
-                .getString("message");
-        assertThat(ImageMessage.split(" "), hasItemInArray(imageFile.length()+""));
+        assertThat(imageUploadResponseClass.getMessage().split(" "), hasItemInArray(imageFile.length()+""));
     }
 }
