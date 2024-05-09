@@ -62,5 +62,10 @@ public class RestfulBookerAPI {
                 .deleteBookingByID(deleteBookingSteps.getBookerResponseID())
                 .getValidatableResponse()
                 .checkStatusCodeDelete();
+
+        getBookingSteps
+                .getBookingByNotFound(partialUpdateBookingSteps.getBookerResponseID())
+                .getValidatableResponse()
+                .checkStatusCodeNotFound();
     }
 }

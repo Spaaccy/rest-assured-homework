@@ -13,8 +13,7 @@ import tbc.tbcacademy.ge.data.models.responses.petstore.ImageUploadResponse;
 import tbc.tbcacademy.ge.data.models.responses.bookstore.Book;
 import tbc.tbcacademy.ge.data.models.responses.restfulbooker.BookerAuthResponse;
 
-import static tbc.tbcacademy.ge.data.constants.CommonData.SUCCESS_CODE;
-import static tbc.tbcacademy.ge.data.constants.CommonData.SUCCESS_CODE_CREATED;
+import static tbc.tbcacademy.ge.data.constants.CommonData.*;
 import static tbc.tbcacademy.ge.data.specbuilder.ResponseSpecs.createResponseCheckerSpec;
 
 public class CommonSteps<T extends CommonSteps> {
@@ -50,6 +49,10 @@ public class CommonSteps<T extends CommonSteps> {
     public void checkStatusCodeDelete() {
         validatableResponse
                 .spec(createResponseCheckerSpec(SUCCESS_CODE_CREATED));
+    }
+    public void checkStatusCodeNotFound() {
+        validatableResponse
+                .spec(createResponseCheckerSpec(ERROR_CODE));
     }
     public T extractBookStoreResponseAsClass() {
         bookStoreResponseClass = validatableResponse
