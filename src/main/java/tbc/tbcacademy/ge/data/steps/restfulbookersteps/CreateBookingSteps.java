@@ -53,7 +53,7 @@ public class CreateBookingSteps extends CommonSteps<CreateBookingSteps> {
         return this;
     }
 
-    public void validateAddBooker() {
-        assertThat(bookingRequest.getBooking(), equalTo(bookingResponse.getBooking()));
+    public void validateUpdatedBookers(BookerRequestObject bookerResponseFromGet) {
+        assertThat(bookingRequest.getBooking(), equalTo(bookerResponseFromGet));
     }
 }

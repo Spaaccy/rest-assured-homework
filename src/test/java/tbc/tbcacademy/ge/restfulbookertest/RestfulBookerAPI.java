@@ -37,8 +37,11 @@ public class RestfulBookerAPI {
                 .addBooker()
                 .getValidatableResponse()
                 .checkStatusCode()
-                .extractAddedBooker()
-                .validateAddBooker();
+                .extractAddedBooker();
+
+        BookerRequestObject bookerResponseObject = getBookingSteps
+                .getBookingByID(createBookingSteps.getBookerResponseID());
+        createBookingSteps.validateUpdatedBookers(bookerResponseObject);
     }
     @Test(priority = 2, dependsOnMethods = "addBookingTest")
     public void updateBookingTest() {
@@ -50,7 +53,7 @@ public class RestfulBookerAPI {
                 .extractAddedBooker();
 
         BookerRequestObject bookerResponseObject = getBookingSteps
-                .getBookingByID(createBookingSteps.getBookerResponseID());
+                .getBookingByID(partialUpdateBookingSteps.getBookerResponseID());
         partialUpdateBookingSteps.validateUpdatedBookers(bookerResponseObject);
     }
     @Test(priority = 3, dependsOnMethods = {"addBookingTest", "updateBookingTest"})
