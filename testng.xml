@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="API test suite">
-    <test name="TestBook API tests">
+    <test name="BookStore API tests">
         <classes>
-            <class name="tbc.tbcacademy.ge.testbooks.TestBooksAPI"/>
-        </classes>
-    </test>
-    <test name="OpenLibrary API tests">
-        <classes>
-            <class name="tbc.tbcacademy.ge.testopenlibrary.TestOpenLibraryAPI"/>
+            <class name="tbc.tbcacademy.ge.testbookstore.BookStoreAPI"/>
         </classes>
     </test>
     <test name="PetStore API tests">
         <classes>
-            <class name="tbc.tbcacademy.ge.testpetstore.TestPetStoreAPI"/>
+            <class name="tbc.tbcacademy.ge.testpetstore.PetStoreAPI"/>
+        </classes>
+    </test>
+    <test name="RestfulBooker API tests">
+        <classes>
+            <class name="tbc.tbcacademy.ge.restfulbookertest.RestfulBookerAPI"/>
         </classes>
     </test>
 </suite>
