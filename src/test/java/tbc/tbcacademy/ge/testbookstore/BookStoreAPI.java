@@ -1,7 +1,7 @@
 package tbc.tbcacademy.ge.testbookstore;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import tbc.tbcacademy.ge.data.steps.restfulbookersteps.GetBooksSteps;
+import tbc.tbcacademy.ge.data.steps.bookstoresteps.GetBooksSteps;
 import static tbc.tbcacademy.ge.data.constants.BookStoreData.*;
 
 public class BookStoreAPI {
@@ -16,8 +16,8 @@ public class BookStoreAPI {
                 .getBooksResponse()
                 .getValidatableResponse()
                 .checkStatusCode()
+                .extractBookStoreResponseAsClass()
                 .validateAllBookPagesAreLessThan(PAGES)
-                .validateFirstBookAuthor(FIRST_AUTHOR)
-                .validateSecondBookAuthor(SECOND_AUTHOR);
+                .validateLastTwoBookAuthors(BEFORE_LAST, LAST_AUTHOR);
     }
 }

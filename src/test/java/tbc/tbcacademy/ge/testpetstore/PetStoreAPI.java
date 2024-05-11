@@ -1,11 +1,8 @@
 package tbc.tbcacademy.ge.testpetstore;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import tbc.tbcacademy.ge.data.steps.petstoresteps.*;
-
-import static io.restassured.RestAssured.given;
 import static tbc.tbcacademy.ge.data.constants.PetStoreData.*;
 
 public class PetStoreAPI {
@@ -32,14 +29,8 @@ public class PetStoreAPI {
                 .addPet()
                 .getValidatableResponse()
                 .checkStatusCode()
-                .validatePetID()
-                .validatePetCategoryID()
-                .validatePetCategoryName()
-                .validatePetName()
-                .validatePetPhotoURLs()
-                .validatePetTagID()
-                .validatePetTagName()
-                .validatePetTagStatus();
+                .extractPetStoreResponseAsClass()
+                .validateAddedPetResponse();
     }
     @Test(priority = 2, dependsOnMethods = "addPetTest")
     public void findPetTest() throws JsonProcessingException {
@@ -47,9 +38,10 @@ public class PetStoreAPI {
                 .getAddedPet()
                 .getValidatableResponse()
                 .checkStatusCode()
+                .extractPetResponseAsClass()
                 .validateResponseContainsID()
-                .extractMyAddedPet()
-                .validateMyPetObjectResponse();
+                .extractMyPet()
+                .validatePetEqualsPOJO();
     }
     @Test(priority = 3, dependsOnMethods = {"addPetTest", "findPetTest"})
     public void updatePetTest() {
@@ -66,17 +58,18 @@ public class PetStoreAPI {
                 .getPet()
                 .getValidatableResponse()
                 .checkStatusCode()
+                .extractPetStoreResponseAsClass()
                 .validatePetName()
                 .validatePetStatus();
     }
-    @Test
+    @Test(priority = 5, dependsOnMethods = "addPetTest")
     public void uploadImageTest() {
         uploadImageSteps
                 .getImage()
-                // aq radgan pirobashi ariko motxovnili hard coded id gavuwere, rorame isev depends on gavaketebdi
-                .uploadPetImage(PET_IMAGE_ID)
+                .uploadPetImage()
                 .getValidatableResponse()
                 .checkStatusCode()
+                .extractPetStoreImageUploadResponseAsClass()
                 .validateImageMetadata()
                 .validateImageFilename()
                 .validateImageFilesize();

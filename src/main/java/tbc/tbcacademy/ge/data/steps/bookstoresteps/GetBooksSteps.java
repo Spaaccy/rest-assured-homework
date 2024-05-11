@@ -1,8 +1,9 @@
-package tbc.tbcacademy.ge.data.steps.restfulbookersteps;
+package tbc.tbcacademy.ge.data.steps.bookstoresteps;
 import io.qameta.allure.Step;
-import io.restassured.specification.RequestSpecification;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
+
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static tbc.tbcacademy.ge.data.constants.BookStoreData.BOOKS_ENDPOINT;
 import static tbc.tbcacademy.ge.data.specbuilder.RequestSpecs.getBaseRequestSpecForBooking;
@@ -12,7 +13,7 @@ public class GetBooksSteps extends CommonSteps<GetBooksSteps> {
         requestSpecification = getBaseRequestSpecForBooking();
     }
     @Step("get book response")
-    public GetBooksSteps getBooksResponse(){
+    public GetBooksSteps getBooksResponse() {
         response =
                 given(requestSpecification)
                         .when()
@@ -21,20 +22,17 @@ public class GetBooksSteps extends CommonSteps<GetBooksSteps> {
     }
     @Step("validate are book pages are less than: {0}")
     public GetBooksSteps validateAllBookPagesAreLessThan(int pages) {
-        validatableResponse
-                .body("books.pages", everyItem(lessThan(pages)));
+        assertThat(bookStoreResponseClass.getBooks(), everyItem(hasProperty("pages", lessThan(pages))));
         return this;
     }
-    @Step("validate first book author equals: {0}")
-    public GetBooksSteps validateFirstBookAuthor(String author) {
-        validatableResponse
-                .body("books.author[0]", equalTo(author));
-        return this;
+    @Step("validate first and second book authors equal: {0}")
+    public void validateLastTwoBookAuthors(String authorBeforeLast, String authorLast) {
+        assertThat(
+                bookStoreResponseClass.getBooks()
+                                .subList(bookStoreResponseClass.getBookSize()-2, bookStoreResponseClass.getBookSize())
+                ,contains(
+                    hasProperty("author", equalTo(authorBeforeLast)),
+                    hasProperty("author", equalTo(authorLast))
+        ));
     }
-    @Step("validate second book author equals: {0}")
-    public void validateSecondBookAuthor(String author) {
-        validatableResponse
-                .body("books.author[1]", equalTo(author));
-    }
-
 }

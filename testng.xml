@@ -16,4 +16,9 @@
             <class name="tbc.tbcacademy.ge.restfulbookertest.RestfulBookerAPI"/>
         </classes>
     </test>
+    <test name="Ergast API tests">
+        <classes>
+            <class name="tbc.tbcacademy.ge.ergast.ErgastAPI"/>
+        </classes>
+    </test>
 </suite>
