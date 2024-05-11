@@ -9,6 +9,7 @@
     <test name="PetStore API tests">
         <classes>
             <class name="tbc.tbcacademy.ge.testpetstore.PetStoreAPI"/>
+            <class name="tbc.tbcacademy.ge.testpetstore.PetStoreAPIV3"/>
         </classes>
     </test>
     <test name="RestfulBooker API tests">
@@ -19,6 +20,16 @@
     <test name="Ergast API tests">
         <classes>
             <class name="tbc.tbcacademy.ge.ergast.ErgastAPI"/>
+        </classes>
+    </test>
+    <test name="Swapi API tests">
+        <classes>
+            <class name="tbc.tbcacademy.ge.swapi.SwapiAPI"/>
+        </classes>
+    </test>
+    <test name="Faker API tests">
+        <classes>
+            <class name="tbc.tbcacademy.ge.fakerapi.FakerAPI"/>
         </classes>
     </test>
 </suite>

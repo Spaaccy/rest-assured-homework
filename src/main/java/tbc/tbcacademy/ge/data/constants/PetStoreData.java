@@ -8,8 +8,8 @@ public class PetStoreData {
             UPDATED_PET_STATUS = "sold",
             PET_DEFAULT_STATUS = "available",
             PET_IMAGE_METADATA = "Some image info",
-            PET_IMAGE_FORMAT = "image/png";
-
-    public static final int
-            PET_IMAGE_ID = 10;
+            PET_IMAGE_FORMAT = "image/png",
+            PET_STORE_URL_V3 = "https://petstore3.swagger.io/api/v3",
+            ORDER_ENDPOINT = "/store/order",
+            PET_ENDPOINT_V3 = "/pet";
 }

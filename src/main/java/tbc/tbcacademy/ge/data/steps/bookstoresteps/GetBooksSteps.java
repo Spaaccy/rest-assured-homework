@@ -1,5 +1,6 @@
 package tbc.tbcacademy.ge.data.steps.bookstoresteps;
 import io.qameta.allure.Step;
+import tbc.tbcacademy.ge.data.models.responses.bookstore.Book;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
 
 import static io.restassured.RestAssured.given;
@@ -9,6 +10,8 @@ import static tbc.tbcacademy.ge.data.constants.BookStoreData.BOOKS_ENDPOINT;
 import static tbc.tbcacademy.ge.data.specbuilder.RequestSpecs.getBaseRequestSpecForBooking;
 
 public class GetBooksSteps extends CommonSteps<GetBooksSteps> {
+    private Book bookStoreResponseClass;
+
     public GetBooksSteps() {
         requestSpecification = getBaseRequestSpecForBooking();
     }
@@ -18,6 +21,12 @@ public class GetBooksSteps extends CommonSteps<GetBooksSteps> {
                 given(requestSpecification)
                         .when()
                         .get(BOOKS_ENDPOINT);
+        return this;
+    }
+    public GetBooksSteps extractBookStoreResponseAsClass() {
+        bookStoreResponseClass = validatableResponse
+                .extract()
+                .as(Book.class);
         return this;
     }
     @Step("validate are book pages are less than: {0}")

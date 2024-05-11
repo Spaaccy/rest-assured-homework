@@ -1,13 +1,8 @@
 package tbc.tbcacademy.ge.data.steps.petstoresteps;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.qameta.allure.Step;
-import org.json.JSONArray;
 import tbc.tbcacademy.ge.data.models.shared.petstore.PetShared;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
-
 import java.util.Arrays;
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -39,12 +34,12 @@ public class FindPetSteps extends CommonSteps<FindPetSteps> {
     }
     @Step("validate response contains my id")
     public FindPetSteps validateResponseContainsID() {
-        assertThat(Arrays.asList(allPets), hasItem(hasProperty("id", equalTo(petSharedClass.getId()))));
+        assertThat(Arrays.toString(allPets), containsString(String.valueOf(petSharedClass.id())));
         return this;
     }
     @Step("extract my pet")
     public FindPetSteps extractMyPet() {
-        myPet = Arrays.stream(allPets).filter(pet -> pet.getId() == petSharedClass.getId()).findFirst().get();
+        myPet = Arrays.stream(allPets).filter(pet -> pet.id() == petSharedClass.id()).findFirst().get();
         return this;
     }
     @Step("validate pet equals")

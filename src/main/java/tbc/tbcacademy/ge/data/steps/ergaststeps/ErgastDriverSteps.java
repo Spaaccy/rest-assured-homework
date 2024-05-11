@@ -25,7 +25,7 @@ public class ErgastDriverSteps extends CommonSteps<ErgastDriverSteps> {
                 .get(ERGAST_ENDPOINT);
         return this;
     }
-    @Step
+    @Step("create driver object")
     public ErgastDriverSteps createDriver() {
         javaDriver = new DriverShared();
         javaDriver.setDriverId(DRIVER_ID);

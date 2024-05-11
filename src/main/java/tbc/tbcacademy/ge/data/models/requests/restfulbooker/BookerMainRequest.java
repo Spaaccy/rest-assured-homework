@@ -3,21 +3,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
+import lombok.experimental.Accessors;
+import tbc.tbcacademy.ge.data.models.responses.restfulbooker.BookerResponse;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@AllArgsConstructor
-@JsonPropertyOrder({
-        "bookingid",
-        "booking",
-})
+@Data
+@Builder
 public class BookerMainRequest {
     @JsonProperty("bookingid")
     private int bookingid;
     @JsonProperty("booking")
-    private BookerRequestObject booking;
+    private BookerResponse booking;
 }

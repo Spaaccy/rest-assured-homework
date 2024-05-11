@@ -23,8 +23,6 @@ public class PetStoreAPI {
     @Test(priority = 1)
     public void addPetTest() {
         addPetSteps
-                .createPetCategory()
-                .createPetTag()
                 .createPetBody()
                 .addPet()
                 .getValidatableResponse()
