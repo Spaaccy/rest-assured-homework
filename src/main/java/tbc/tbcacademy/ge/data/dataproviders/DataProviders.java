@@ -2,14 +2,19 @@ package tbc.tbcacademy.ge.data.dataproviders;
 import com.github.javafaker.Faker;
 import org.testng.annotations.DataProvider;
 
-
 public class DataProviders {
     Faker faker = new Faker();
+
     @DataProvider
-    public Object[][] bookingData() {
-        return new Object [][]{
-                {faker.name().firstName(), faker.name().lastName(), faker.number().numberBetween(50, 100), faker.bool().bool(), faker.number().numberBetween(50, 100), "2025-10-20", "2025-10-20", "Cat", null},
-                {faker.name().firstName(), faker.name().lastName(), faker.number().numberBetween(50, 100), faker.bool().bool(), faker.number().numberBetween(50, 100), "2025-10-20", "2025-10-20", "Cat", null},
+    public Object[][] passwordProvider(){
+        return new Object[][]{
+                {faker.lorem().characters(8)},
+                {faker.letterify("????????")},
+                {faker.numerify("########")},
+                {faker.bothify("???##???")},
+                {faker.letterify("????????").toLowerCase()},
+                {faker.letterify("????????").toUpperCase()},
+                {"!@#$%^&*"}
         };
     }
 }
