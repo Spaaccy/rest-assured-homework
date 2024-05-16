@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="API test suite">
-    <test name="Spring API tests">
+    <test name="OorSprong API tests">
         <classes>
-            <class name="tbc.tbcacademy.ge.springrest.SpringRestAPI"/>
+            <class name="tbc.tbcacademy.ge.oorsprongtest.OorSprongAPI"/>
         </classes>
     </test>
-    <test name="PetStoreV3 API tests">
+    <test name="SpringSoap API tests">
         <classes>
-            <class name="tbc.tbcacademy.ge.petstoreV3.PetStoreAPI"/>
+            <class name="tbc.tbcacademy.ge.springsoaptest.SpringSoapAPI"/>
         </classes>
     </test>
 </suite>
