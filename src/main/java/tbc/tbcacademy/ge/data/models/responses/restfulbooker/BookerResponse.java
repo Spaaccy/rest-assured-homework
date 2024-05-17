@@ -1,9 +1,10 @@
-package tbc.tbcacademy.ge.data.models.requests.restfulbooker;
+package tbc.tbcacademy.ge.data.models.responses.restfulbooker;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 
 @Getter
@@ -11,27 +12,26 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @JsonPropertyOrder({
-        "firstname",
+        "additionalneeds",
         "lastname",
         "totalprice",
         "depositpaid",
-        "depositpaid",
-        "lastname",
+        "firstname",
+        "bookingdates",
 })
-public class BookerRequestObject {
+public class BookerResponse {
     @JsonProperty("firstname")
     private String firstname;
     @JsonProperty("lastname")
-    private String lastname;
+    private String lastName;
     @JsonProperty("totalprice")
-    private int totalprice;
+    private int totalBookerprice;
     @JsonProperty("depositpaid")
     private boolean depositpaid;
     @JsonProperty("bookingdates")
-    private BookerDates bookingdates;
+    private BookerResponseDates bookingdates;
     @JsonProperty("additionalneeds")
     private String additionalneeds;
 }

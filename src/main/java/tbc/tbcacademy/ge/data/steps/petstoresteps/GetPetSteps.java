@@ -14,16 +14,16 @@ public class GetPetSteps extends CommonSteps<GetPetSteps> {
     public GetPetSteps getPet() {
         response = given(requestSpecification)
                 .when()
-                .get("/pet/{petId}", petSharedClass.getId());
+                .get("/pet/{petId}", petSharedClass.id());
         return this;
     }
     @Step("validate updated pet name")
     public GetPetSteps validatePetName() {
-        assertThat(petSharedClass.getName(), equalTo(petSharedClass.getName()));
+        assertThat(petSharedClass.name(), equalTo(petSharedClass.name()));
         return this;
     }
     @Step("validate updated pet status")
     public void validatePetStatus() {
-        assertThat(petSharedClass.getStatus(), equalTo(petSharedClass.getStatus()));
+        assertThat(petSharedClass.status(), equalTo(petSharedClass.status()));
     }
 }

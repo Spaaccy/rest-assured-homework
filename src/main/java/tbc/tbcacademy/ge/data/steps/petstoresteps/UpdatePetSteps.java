@@ -11,22 +11,22 @@ public class UpdatePetSteps extends CommonSteps<UpdatePetSteps> {
     }
     @Step("change pet name in pojo")
     public UpdatePetSteps updatePetPOJOName(String petPOJOName) {
-        petSharedClass.setName(petPOJOName);
+        petSharedClass.status(petPOJOName);
         return this;
     }
     @Step("change pet status in pojo")
     public UpdatePetSteps updatePetPOJOStatus(String petPOJOStatus) {
-        petSharedClass.setStatus(petPOJOStatus);
+        petSharedClass.status(petPOJOStatus);
         return this;
     }
     @Step("send updated pet")
     public UpdatePetSteps updatePet() {
         response = given(requestSpecification)
                 .contentType(ContentType.URLENC)
-                .formParam("name", petSharedClass.getName())
-                .formParam("status", petSharedClass.getStatus())
+                .formParam("name", petSharedClass.name())
+                .formParam("status", petSharedClass.status())
                 .when()
-                .post("/pet/{petId}", petSharedClass.getId());
+                .post("/pet/{petId}", petSharedClass.id());
         return this;
     }
 }

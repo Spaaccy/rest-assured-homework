@@ -6,6 +6,7 @@ import tbc.tbcacademy.ge.data.models.shared.petstore.TagShared;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,38 +16,24 @@ import static tbc.tbcacademy.ge.data.constants.PetStoreData.PET_ENDPOINT;
 import static tbc.tbcacademy.ge.data.specbuilder.RequestSpecs.getBaseRequestSpecForPetStore;
 
 public class AddPetSteps extends CommonSteps<AddPetSteps> {
-    private CategoryShared categoryShared;
-    private TagShared tagShared;
-
     public AddPetSteps() {
         requestSpecification = getBaseRequestSpecForPetStore();
     }
-
-    @Step("create pet category json")
-    public AddPetSteps createPetCategory() {
-        categoryShared = new CategoryShared();
-        categoryShared.setId(faker.number().randomDigitNotZero());
-        categoryShared.setName(faker.animal().name());
-        return this;
-    }
-
-    @Step("create pet tag json")
-    public AddPetSteps createPetTag() {
-        tagShared = new TagShared();
-        tagShared.setId(faker.number().randomDigitNotZero());
-        tagShared.setName(faker.funnyName().name());
-        return this;
-    }
-
     @Step("create pet body json")
     public AddPetSteps createPetBody() {
-        petSharedClass = new PetShared();
-        petSharedClass.setId(faker.number().randomDigitNotZero());
-        petSharedClass.setCategory(categoryShared);
-        petSharedClass.setName(faker.cat().name());
-        petSharedClass.setPhotoUrls(new String[] { faker.internet().url(), faker.internet().url() });
-        petSharedClass.setTags(new TagShared[] {tagShared});
-        petSharedClass.setStatus(PET_DEFAULT_STATUS);
+        petSharedClass = new PetShared()
+                .id(faker.number().randomDigitNotZero())
+                .category(
+                        new CategoryShared()
+                        .id(faker.number().randomDigitNotZero())
+                        .name(faker.name().firstName()))
+                .name(faker.name().firstName())
+                .photoUrls(new String[] { faker.internet().url(), faker.internet().url() })
+                .tags(new TagShared[] {new TagShared()
+                        .id(faker.number().randomDigitNotZero())
+                        .name(faker.name().firstName())}
+                )
+                .status(PET_DEFAULT_STATUS);
         return this;
     }
 
@@ -59,11 +46,11 @@ public class AddPetSteps extends CommonSteps<AddPetSteps> {
         return this;
     }
     public void validateAddedPetResponse() {
-        assertThat(petResponseClass.getId(), equalTo(petSharedClass.getId()));
-        assertThat(petResponseClass.getName(), equalTo(petSharedClass.getName()));
-        assertThat(petResponseClass.getPhotoUrls(), arrayContainingInAnyOrder(petSharedClass.getPhotoUrls()));
-        assertThat(petResponseClass.getTags()[0].getId(), equalTo(petSharedClass.getTags()[0].getId()));
-        assertThat(petResponseClass.getTags()[0].getName(), equalTo(petSharedClass.getTags()[0].getName()));
-        assertThat(petResponseClass.getStatus(), equalTo(petSharedClass.getStatus()));
+        assertThat(petResponseClass.id(), equalTo(petSharedClass.id()));
+        assertThat(petResponseClass.name(), equalTo(petSharedClass.name()));
+        assertThat(petResponseClass.photoUrls(), arrayContainingInAnyOrder(petSharedClass.photoUrls()));
+        assertThat(petResponseClass.tags()[0].id(), equalTo(petSharedClass.tags()[0].id()));
+        assertThat(petResponseClass.tags()[0].name(), equalTo(petSharedClass.tags()[0].name()));
+        assertThat(petResponseClass.status(), equalTo(petSharedClass.status()));
     }
 }

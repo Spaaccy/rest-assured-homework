@@ -1,6 +1,7 @@
 package tbc.tbcacademy.ge.data.steps.petstoresteps;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
+import tbc.tbcacademy.ge.data.models.responses.petstore.ImageUploadResponse;
 import tbc.tbcacademy.ge.data.steps.CommonSteps;
 import java.io.File;
 import static io.restassured.RestAssured.given;
@@ -12,6 +13,8 @@ import static tbc.tbcacademy.ge.data.specbuilder.RequestSpecs.getBaseRequestSpec
 
 public class UploadImageSteps extends CommonSteps<UploadImageSteps> {
     private File imageFile;
+    private ImageUploadResponse imageUploadResponseClass;
+
     public UploadImageSteps() {
         requestSpecification = getBaseRequestSpecForPetStore();
     }
@@ -27,7 +30,13 @@ public class UploadImageSteps extends CommonSteps<UploadImageSteps> {
                 .multiPart("additionalMetadata", PET_IMAGE_METADATA)
                 .multiPart("file", imageFile, PET_IMAGE_FORMAT)
                 .when()
-                .post("/pet/{petId}/uploadImage", petSharedClass.getId());
+                .post("/pet/{petId}/uploadImage", petSharedClass.id());
+        return this;
+    }
+    public UploadImageSteps extractPetStoreImageUploadResponseAsClass() {
+        imageUploadResponseClass = validatableResponse
+                .extract()
+                .as(ImageUploadResponse.class);
         return this;
     }
     @Step("validate image metadata")

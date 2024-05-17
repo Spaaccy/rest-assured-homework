@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Successful Tests",
+    "matchedStatuses": ["passed"]
+  },
+
+  {
+    "name": "Ignored Tests",
+    "matchedStatuses": ["skipped"]
+  },
+
+  {
+    "name": "Outdated Tests",
+    "matchedStatuses": ["broken"],
+    "traceRegex": ".*FileNotFoundException.*"
+  },
+
+  {
+    "name": "Database Errors",
+    "matchedStatuses": ["failed", "broken"],
+    "traceRegex": ".*SQLException.*"
+  },
+
+  {
+    "name": "Product defects",
+    "matchedStatuses": ["failed"]
+  },
+
+  {
+    "name": "Test defects",
+    "matchedStatuses": ["broken"]
+  },
+
+  {
+    "name": "Unknown Tests",
+    "matchedStatuses": ["unknown"]
+  }
+]

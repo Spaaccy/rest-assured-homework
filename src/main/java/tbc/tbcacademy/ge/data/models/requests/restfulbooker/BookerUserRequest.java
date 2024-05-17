@@ -16,6 +16,7 @@ import lombok.*;
 		"name",
 		"id",
 })
+@Builder
 public class BookerUserRequest {
 	@JsonProperty("password")
 	private String password;

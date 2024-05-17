@@ -1,5 +1,4 @@
-package tbc.tbcacademy.ge.data.models.shared.petstore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+package tbc.tbcacademy.ge.data.models.responses.restfulbooker;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,17 +10,15 @@ import lombok.experimental.Accessors;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @JsonPropertyOrder({
-        "name",
-        "id",
+        "bookingid",
+        "booking",
 })
 @Accessors(chain = true, fluent = true)
-public class TagShared {
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("id")
-    private long id;
+public class BookerMainResponse {
+    @JsonProperty("bookingid")
+    private int bookingid;
+    @JsonProperty("booking")
+    private BookerResponse booking;
 }
