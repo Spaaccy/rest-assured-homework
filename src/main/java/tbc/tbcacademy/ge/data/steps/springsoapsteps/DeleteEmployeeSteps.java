@@ -27,9 +27,8 @@ public class DeleteEmployeeSteps extends CommonSteps<DeleteEmployeeSteps> {
     @Step("Create Delete Employee Request (Using Employee ID from Previous Add)")
     public DeleteEmployeeRequest createDeleteEmployeeRequest() {
         ObjectFactory objectFactory = new ObjectFactory();
-        DeleteEmployeeRequest deleteEmployeeRequest = objectFactory.createDeleteEmployeeRequest();
-        deleteEmployeeRequest.withEmployeeId(employeeInfo.getEmployeeId());
-        return deleteEmployeeRequest;
+        return objectFactory.createDeleteEmployeeRequest()
+                .withEmployeeId(employeeInfo.getEmployeeId());
     }
     @Step("Send Delete Employee Request and Get Response")
     public Response deleteEmployeeAndGetResponse(String xml) {

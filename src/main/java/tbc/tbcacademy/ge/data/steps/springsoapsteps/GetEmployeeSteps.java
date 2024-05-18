@@ -30,9 +30,8 @@ public class GetEmployeeSteps extends CommonSteps<GetEmployeeSteps> {
     @Step("Create Get Employee Request (Using Previously Added Employee ID)")
     public GetEmployeeByIdRequest createGetEmployeeRequest() {
         ObjectFactory objectFactory = new ObjectFactory();
-        GetEmployeeByIdRequest getEmployeeByIdRequest = objectFactory.createGetEmployeeByIdRequest();
-        getEmployeeByIdRequest.withEmployeeId(employeeInfo.getEmployeeId());
-        return getEmployeeByIdRequest;
+        return objectFactory.createGetEmployeeByIdRequest()
+                .withEmployeeId(employeeInfo.getEmployeeId());
     }
     @Step("Send Get Employee Request (By ID) and Retrieve Response")
     public Response getAddedEmployeeResponse(String xml) {
