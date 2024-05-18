@@ -3,11 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>groupId</groupId>
     <artifactId>rest-assured-homework</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -18,10 +16,7 @@
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <aspectj.version>1.9.21</aspectj.version>
-
-
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -33,7 +28,6 @@
             <artifactId>json-schema-validator</artifactId>
             <version>${rest.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -59,19 +53,16 @@
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.17.1</version>
         </dependency>
-
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
             <version>2.27.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20240303</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
@@ -132,11 +123,14 @@
             <artifactId>saaj-impl</artifactId>
             <version>3.0.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-fluent-api</artifactId>
+            <version>3.0</version>
+        </dependency>
     </dependencies>
     <build>
-
         <plugins>
-
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
@@ -146,10 +140,27 @@
                         <id>generate-sources</id>
                         <phase>generate-sources</phase>
                         <configuration>
+                            <additionalJvmArgs>-Djavax.xml.accessExternalDTD=all -Djavax.xml.accessExternalSchema=all</additionalJvmArgs>
                             <sourceRoot>${project.build.directory}/generated-sources</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${project.basedir}/src/main/resources/employees.wsdl</wsdl>
+                                    <extraargs>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-xjc-Xfluent-api</extraarg>
+                                        <extraarg>-xjc-Xts:style:org.apache.commons.lang3.builder.ToStringStyle.DEFAULT_STYLE</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/crcind.wsdl</wsdl>
+                                    <extraargs>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-xjc-Xfluent-api</extraarg>
+                                        <extraarg>-xjc-Xts:style:org.apache.commons.lang3.builder.ToStringStyle.DEFAULT_STYLE</extraarg>
+                                    </extraargs>
+                                    <bindingFiles>
+                                        <bindingFile>http://www.w3.org/2001/XMLSchema.xsd</bindingFile>
+                                    </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
@@ -158,6 +169,33 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-fluent-api</artifactId>
+                        <version>3.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf.xjc-utils</groupId>
+                        <artifactId>cxf-xjc-runtime</artifactId>
+                        <version>4.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf.xjcplugins</groupId>
+                        <artifactId>cxf-xjc-ts</artifactId>
+                        <version>4.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-value-constructor</artifactId>
+                        <version>3.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-lang3</artifactId>
+                        <version>3.13.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>io.qameta.allure</groupId>
@@ -190,61 +228,6 @@
                     <reportDirectory>${basedir}/allure-report</reportDirectory>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.openapitools</groupId>-->
-<!--                <artifactId>openapi-generator-maven-plugin</artifactId>-->
-<!--                <version>${openapi-generator-maven-plugin.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>generate-pet-store-client-api-code</id>-->
-<!--                        <goals>-->
-<!--                            <goal>generate</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                        <configuration>-->
-<!--                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>-->
-<!--                            <invokerPackage>pet.store.v3.invoker</invokerPackage>-->
-<!--                            <apiPackage>pet.store.v3.api</apiPackage>-->
-<!--                            <modelPackage>pet.store.v3.model</modelPackage>-->
-<!--                            <generatorName>java</generatorName>-->
-<!--                            <generateApiTests>false</generateApiTests>-->
-<!--                            <generateModelTests>false</generateModelTests>-->
-<!--                            <configOptions>-->
-<!--                                <identifierNamingConvention>original</identifierNamingConvention>-->
-<!--                                <library>rest-assured</library>-->
-<!--                                <serializationLibrary>jackson</serializationLibrary>-->
-<!--                                <useJakartaEe>true</useJakartaEe>-->
-<!--                                <additionalModelTypeAnnotations>@lombok.Data;@lombok.experimental.Accessors(chain = true, fluent = true)</additionalModelTypeAnnotations>-->
-<!--                            </configOptions>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                    <execution>-->
-<!--                        <id>generate-spring-security-client-api-code</id>-->
-<!--                        <goals>-->
-<!--                            <goal>generate</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                        <configuration>-->
-<!--                            <inputSpec>${project.basedir}/src/main/resources/api-docs.yaml</inputSpec>-->
-<!--                            <invokerPackage>spring.security.invoker</invokerPackage>-->
-<!--                            <apiPackage>spring.security.api</apiPackage>-->
-<!--                            <modelPackage>spring.security.model</modelPackage>-->
-<!--                            <generatorName>java</generatorName>-->
-<!--                            <generateApiTests>false</generateApiTests>-->
-<!--                            <generateModelTests>false</generateModelTests>-->
-<!--                            <configOptions>-->
-<!--                                <identifierNamingConventio>original</identifierNamingConventio>-->
-<!--                                <library>rest-assured</library>-->
-<!--                                <serializationLibrary>jackson</serializationLibrary>-->
-<!--                                <useJakartaEe>true</useJakartaEe>-->
-<!--                                <additionalModelTypeAnnotations>@lombok.Data;@lombok.experimental.Accessors(chain = true, fluent = true)</additionalModelTypeAnnotations>-->
-<!--                            </configOptions>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
         </plugins>
     </build>
-
 </project>

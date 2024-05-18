@@ -1,13 +1,14 @@
 package tbc.tbcacademy.ge.data.steps;
 import com.example.springboot.soap.interfaces.EmployeeInfo;
+import com.example.springboot.soap.interfaces.GetEmployeeByIdResponse;
 import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import io.restassured.path.xml.XmlPath;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-import tbc.tbcacademy.ge.data.steps.helpers.EmployeesNamespaceContext;
-import tbc.tbcacademy.ge.data.steps.helpers.SerializeXml;
+import tbc.tbcacademy.ge.data.helpers.SerializeDeserializeXml;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasXPath;
 import static tbc.tbcacademy.ge.data.specbuilder.ResponseSpecs.createResponseCheckerSpec;
@@ -29,7 +30,7 @@ public class CommonSteps<T extends CommonSteps> {
     }
     @Step("Serialize Object to XML String")
     public String serializeToXML(Object body) {
-        return SerializeXml.marshallSoapRequest(body);
+        return SerializeDeserializeXml.marshallSoapRequest(body);
     }
     @Step("Extract XML Path from Response")
     public XmlPath getXmlPathFromResponse(Response response) {
@@ -40,54 +41,44 @@ public class CommonSteps<T extends CommonSteps> {
         return response.then().assertThat();
     }
     @Step("Validate Employee ID in Response")
-    public T validateEmployeeIDTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:employeeId", new EmployeesNamespaceContext(), equalTo(String.valueOf(employeeInfo.getEmployeeId()))));
+    public T validateEmployeeIDTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getEmployeeId(), equalTo(employeeInfo.getEmployeeId()));
         return (T) this;
     }
     @Step("Validate Employee Name in Response")
-    public T validateEmployeeNameTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:name", new EmployeesNamespaceContext(), equalTo(employeeInfo.getName())));
+    public T validateEmployeeNameTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getName(), equalTo(employeeInfo.getName()));
         return (T) this;
     }
     @Step("Validate Employee Department in Response")
-    public T validateEmployeeDepartmentTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:department", new EmployeesNamespaceContext(), equalTo(employeeInfo.getDepartment())));
+    public T validateEmployeeDepartmentTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getDepartment(), equalTo(employeeInfo.getDepartment()));
         return (T) this;
-
     }
     @Step("Validate Employee Phone in Response")
-    public T validateEmployeePhoneTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:phone", new EmployeesNamespaceContext(), equalTo(employeeInfo.getPhone())));
+    public T validateEmployeePhoneTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getPhone(), equalTo(employeeInfo.getPhone()));
         return (T) this;
     }
     @Step("Validate Employee Address in Response")
-    public T validateEmployeeAddressTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:address", new EmployeesNamespaceContext(), equalTo(employeeInfo.getAddress())));
+    public T validateEmployeeAddressTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getAddress(), equalTo(employeeInfo.getAddress()));
         return (T) this;
     }
     @Step("Validate Employee Salary in Response")
-    public T validateEmployeeSalaryTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        double number = Double.parseDouble(String.valueOf(employeeInfo.getSalary()));
-        String formattedNumber = String.format("%.2f", number);
-        response
-                .body(hasXPath("//ns2:salary", new EmployeesNamespaceContext(), equalTo(formattedNumber)));
+    public T validateEmployeeSalaryTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        double number = Double.parseDouble(String.valueOf(getEmployeeByIdResponse.getEmployeeInfo().getSalary()));
+        assertThat(number, equalTo(Double.parseDouble(String.valueOf(employeeInfo.getSalary()))));
         return (T) this;
     }
     @Step("Validate Employee Email in Response")
-    public T validateEmployeeEmailTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:email", new EmployeesNamespaceContext(), equalTo(employeeInfo.getEmail())));
+    public T validateEmployeeEmailTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getEmail(), equalTo(employeeInfo.getEmail()));
         return (T) this;
     }
     @Step("Validate Employee Birth Date in Response")
-    public T validateEmployeeBirthDateTEST(ValidatableResponse response, EmployeeInfo employeeInfo) {
-        response
-                .body(hasXPath("//ns2:birthDate", new EmployeesNamespaceContext(), equalTo(String.valueOf(employeeInfo.getBirthDate()))));
+    public T validateEmployeeBirthDateTEST(GetEmployeeByIdResponse getEmployeeByIdResponse, EmployeeInfo employeeInfo) {
+        assertThat(getEmployeeByIdResponse.getEmployeeInfo().getBirthDate(), equalTo(employeeInfo.getBirthDate()));
         return (T) this;
     }
 }

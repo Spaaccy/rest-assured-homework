@@ -1,13 +1,8 @@
-package tbc.tbcacademy.ge.data.steps.helpers;
-
+package tbc.tbcacademy.ge.data.helpers;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
-import jakarta.xml.soap.MessageFactory;
-import jakarta.xml.soap.SOAPException;
-import jakarta.xml.soap.SOAPMessage;
-import jakarta.xml.soap.SOAPPart;
-
+import jakarta.xml.soap.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -16,8 +11,14 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.ws.soap.SOAPFaultException;
+import org.w3c.dom.Document;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
-public class SerializeXml {
+
+public class SerializeDeserializeXml {
     public static <T> String marshallSoapRequest(T object) {
         try {
             MessageFactory messageFactory = MessageFactory.newInstance();
@@ -44,4 +45,20 @@ public class SerializeXml {
             throw new RuntimeException(e);
         }
     }
+    public static <T> T unmarshallResponse(String response, Class<T> object) {
+        try {
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+            SOAPMessage message = MessageFactory.newInstance().createMessage(null, byteArrayInputStream);
+            if (message.getSOAPBody().hasFault()) {
+                throw new IllegalArgumentException(message.getSOAPBody().getFault().getFaultString());
+            }
+            Document document = message.getSOAPBody().extractContentAsDocument();
+            Unmarshaller unmarshaller = JAXBContext.newInstance(object).createUnmarshaller();
+            Object unmarshal = unmarshaller.unmarshal(document);
+            return object.cast(unmarshal);
+        } catch (SOAPException | JAXBException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

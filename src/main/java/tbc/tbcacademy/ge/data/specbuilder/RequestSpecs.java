@@ -23,4 +23,12 @@ public class RequestSpecs {
                 .build()
                 .header("Content-Type", "text/xml; charset=utf-8");
     }
+    public static RequestSpecification getRequestSpecForCrcind() {
+        return new RequestSpecBuilder()
+                .setBaseUri("https://www.crcind.com/csp/")
+                .setContentType(ContentType.XML)
+                .addFilter(new AllureRestAssured())
+                .build()
+                .header("Content-Type", "text/xml; charset=utf-8");
+    }
 }

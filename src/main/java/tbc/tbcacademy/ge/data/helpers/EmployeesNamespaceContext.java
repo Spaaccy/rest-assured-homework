@@ -1,5 +1,4 @@
-package tbc.tbcacademy.ge.data.steps.helpers;
-
+package tbc.tbcacademy.ge.data.helpers;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import java.util.HashMap;
