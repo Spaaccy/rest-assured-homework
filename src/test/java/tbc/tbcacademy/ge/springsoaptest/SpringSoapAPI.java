@@ -2,7 +2,6 @@ package tbc.tbcacademy.ge.springsoaptest;
 import com.example.springboot.soap.interfaces.*;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import tbc.tbcacademy.ge.data.steps.springsoapsteps.*;
@@ -45,12 +44,12 @@ public class SpringSoapAPI {
                 .serializeToXML(addEmployeeRequest);
         Response response = addEmployeeSteps
                 .addEmployeeAndGetResponse(addEmployeeXML);
-        ValidatableResponse valResponse = addEmployeeSteps
-                .getValidatableResponse(response);
 
         addEmployeeSteps
-                .checkStatusCodeValResponse(valResponse, SUCCESS_CODE)
-                .validateAddResponseMessage(valResponse);
+                .checkStatusCode(response, SUCCESS_CODE)
+                .deserializeToAddEmployeeResponse(response)
+                .validateAddResponseMessage();
+
         getEmployeeSteps.setEmployeeInfo(addEmployeeRequest.getEmployeeInfo());
     }
 
@@ -74,21 +73,21 @@ public class SpringSoapAPI {
                 .serializeToXML(getEmployeeByIdRequest);
         Response response = getEmployeeSteps
                 .getAddedEmployeeResponse(getEmployeeXML);
-        ValidatableResponse valResponse = getEmployeeSteps.
-                getValidatableResponse(response);
+
+        GetEmployeeByIdResponse getEmployeeByIdResponse = getEmployeeSteps
+                .checkStatusCode(response, SUCCESS_CODE)
+                .deserializeToGetEmployeeByIDResponse(response);
 
         EmployeeInfo employeeInfo = getEmployeeSteps.getEmployeeInfo();
         getEmployeeSteps
-                .checkStatusCodeValResponse(valResponse, SUCCESS_CODE)
-                .validateEmployeeIDTEST(valResponse, employeeInfo)
-                .validateEmployeeNameTEST(valResponse, employeeInfo)
-                .validateEmployeeDepartmentTEST(valResponse, employeeInfo)
-                .validateEmployeePhoneTEST(valResponse, employeeInfo)
-                .validateEmployeeAddressTEST(valResponse, employeeInfo)
-                .validateEmployeeSalaryTEST(valResponse, employeeInfo)
-                .validateEmployeeEmailTEST(valResponse, employeeInfo)
-                .validateEmployeeBirthDateTEST(valResponse, employeeInfo);
-
+                .validateEmployeeIDTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeNameTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeDepartmentTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeePhoneTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeAddressTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeSalaryTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeEmailTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeBirthDateTEST(getEmployeeByIdResponse, employeeInfo);
         updateEmployeeSteps.setEmployeeID(employeeInfo.getEmployeeId());
     }
 
@@ -117,11 +116,12 @@ public class SpringSoapAPI {
                 .serializeToXML(updateEmployeeRequest);
         Response updateResponse = updateEmployeeSteps
                 .updateEmployeeAndGetResponse(updateEmployeeXML);
-        ValidatableResponse updateValResponse =
-                updateEmployeeSteps.getValidatableResponse(updateResponse);
+
+
         updateEmployeeSteps
-                .checkStatusCodeValResponse(updateValResponse, SUCCESS_CODE)
-                .validateUpdateResponseMessage(updateValResponse);
+                .checkStatusCode(updateResponse, SUCCESS_CODE)
+                .deserializeToUpdateEmployeeResponse(updateResponse)
+                .validateUpdateResponseMessage();
 
         EmployeeInfo employeeInfo = updateEmployeeRequest.getEmployeeInfo();
         getEmployeeSteps.setEmployeeInfo(employeeInfo);
@@ -132,17 +132,18 @@ public class SpringSoapAPI {
                 .serializeToXML(getEmployeeByIdRequest);
         Response getResponse = getEmployeeSteps
                 .getAddedEmployeeResponse(getEmployeeXML);
-        ValidatableResponse getValResponse = getEmployeeSteps.getValidatableResponse(getResponse);
+        GetEmployeeByIdResponse getEmployeeByIdResponse = getEmployeeSteps
+                .checkStatusCode(getResponse, SUCCESS_CODE)
+                .deserializeToGetEmployeeByIDResponse(getResponse);
 
         updateEmployeeSteps
-                .checkStatusCodeValResponse(getValResponse, SUCCESS_CODE)
-                .validateEmployeeIDTEST(getValResponse, employeeInfo)
-                .validateEmployeeNameTEST(getValResponse, employeeInfo)
-                .validateEmployeeDepartmentTEST(getValResponse, employeeInfo)
-                .validateEmployeeAddressTEST(getValResponse, employeeInfo)
-                .validateEmployeeSalaryTEST(getValResponse, employeeInfo)
-                .validateEmployeeEmailTEST(getValResponse, employeeInfo)
-                .validateEmployeeBirthDateTEST(getValResponse, employeeInfo);
+                .validateEmployeeIDTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeNameTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeDepartmentTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeAddressTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeSalaryTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeEmailTEST(getEmployeeByIdResponse, employeeInfo)
+                .validateEmployeeBirthDateTEST(getEmployeeByIdResponse, employeeInfo);
 
         deleteEmployeeSteps.setEmployeeInfo(updateEmployeeRequest.getEmployeeInfo());
     }
@@ -169,11 +170,11 @@ public class SpringSoapAPI {
 
         Response response = deleteEmployeeSteps
                 .deleteEmployeeAndGetResponse(deleteEmployeeXML);
-        ValidatableResponse valResponse = deleteEmployeeSteps
-                .getValidatableResponse(response);
+
         deleteEmployeeSteps
-                .checkStatusCodeValResponse(valResponse, SUCCESS_CODE)
-                .validateDeleteResponseMessage(valResponse);
+                .checkStatusCode(response, SUCCESS_CODE)
+                .deserializeToDeleteEmployeeResponse(response)
+                .validateDeleteResponseMessage();
 
         GetEmployeeByIdRequest getEmployeeByIdRequest = getEmployeeSteps
                 .createGetEmployeeRequest();
@@ -184,7 +185,7 @@ public class SpringSoapAPI {
 
         getEmployeeSteps
                 .checkStatusCode(getResponse, FAIL_CODE)
-                .validateNullSourceMessage(getResponse);
-
+                .deserializeToGetEmployeeByIDResponse(getResponse);
+        getEmployeeSteps.validateNullSourceMessage();
     }
 }

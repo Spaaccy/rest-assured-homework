@@ -11,4 +11,9 @@
             <class name="tbc.tbcacademy.ge.springsoaptest.SpringSoapAPI"/>
         </classes>
     </test>
+    <test name="Crcing API tests">
+        <classes>
+            <class name="tbc.tbcacademy.ge.crcindtest.CrcindAPI"/>
+        </classes>
+    </test>
 </suite>
